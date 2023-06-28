@@ -107,6 +107,24 @@ typedef struct s_save_char
 
 t_save_char g_my;
 
+void	*ft_mod_memset(void *b, int c, size_t len)
+{
+	unsigned char *f = b;
+    size_t i = 0;
+
+    while (i < len && f[i] != '\0')
+    {
+        i++;
+
+    }
+    while (i < len)
+    {
+        f[i] = (unsigned char)c;
+        i++;
+    }
+    return b;
+}
+
 void handler_sig(int signal, siginfo_t *info, void *ucontent)
 {
 static int bit = 0;
@@ -124,7 +142,7 @@ static int bit = 0;
         {
             write(1, g_my.message, g_my.message_size);
             g_my.message_size = 0;
-            memset(g_my.message, 0, sizeof(g_my.message));
+            ft_mod_memset(g_my.message, 0, sizeof(g_my.message));
         }
 
         g_my.message[g_my.message_size] = character;

@@ -462,7 +462,6 @@ void send_null(int server_pid)
         }
         usleep(50);
     }
-    sleep(100);
 }
 
 void handler_sig(int signal, siginfo_t *info, void *ucontent)
@@ -497,7 +496,6 @@ int check_input(int ac, char **av)
 int main(int argc, char **argv)
 {
     int server_pid;
-    char *msg;
     struct sigaction sa_newsig;
 
     if (check_input(argc, argv) == 1)
@@ -505,10 +503,9 @@ int main(int argc, char **argv)
         sa_newsig.sa_sigaction = &handler_sig;
         sa_newsig.sa_flags = SA_SIGINFO;
         server_pid = ft_atoi(argv[1]);
-        msg = argv[2];
         if (sigaction(SIGUSR1, &sa_newsig, NULL) == -1)
             printf("%s\n", "Fehler → SIGUSR1 konnte nicht gesendet werden");
-        send_msg(server_pid, msg);
+        send_msg(server_pid, argv[2]);
         send_null(server_pid);
     }
     return (0);
