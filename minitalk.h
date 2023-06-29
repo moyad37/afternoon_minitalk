@@ -25,11 +25,13 @@
 
 typedef struct s_save_char
 {
+	int 	count;
 	char	message[MAX];
 	size_t	message_size;
 }			t_save_char;
 
 int			check_arg_digit(char *str);
 int			check_args(int ac, char **av);
+void write_error(char *str);
 
 #endif

@@ -44,3 +44,9 @@ int	check_args(int ac, char **av)
 	else
 		return (1);
 }
+
+void write_error(char *str)
+{
+	write(2, str, ft_strlen(str));
+	exit(1);
+}
