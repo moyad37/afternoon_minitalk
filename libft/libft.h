@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   libft.h                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: mmanssou <marvin@42.fr>                    +#+  +:+       +#+        */
+/*   By: mmanssou <mmanssou@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/10/04 09:02:43 by mmanssou          #+#    #+#             */
-/*   Updated: 2022/10/04 09:02:43 by mmanssou         ###   ########.fr       */
+/*   Updated: 2023/06/29 16:10:59 by mmanssou         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -54,5 +54,15 @@ void	ft_striteri(char *s, void (*f)(unsigned int, char *));
 char	*ft_strmapi(char const *s, char (*f)(unsigned int, char));
 char	**ft_split(char const *s, char c);
 char	*ft_strtrim(char const *s1, char const *set);
+char	*ft_itoa(int n);
+void	ft_putchar_fd(char c, int fd);
+int		ft_print_char(int c);
+int		ft_print_hex(unsigned int n, const char x);
+int		ft_print_px0(unsigned long long n);
+int		ft_print_percent(void);
+int		ft_print_string(char *str);
+int		ft_print_nbr(int n);
+int		ft_print_unsigned(unsigned int n);
+int		ft_printf(const char *str, ...);
 
 #endif

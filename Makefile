@@ -3,7 +3,7 @@ FLAGS=-Werror -Wextra -Wall
 SERVER=server
 CLIENT=client
 S_SRC=server.c
-C_SRC=client.c
+C_SRC=client.c utils.c
 S_OBJS = $(S_SRC:.c=.o)
 C_OBJS = $(C_SRC:.c=.o)
 INCLUDES=libft/libft.a
