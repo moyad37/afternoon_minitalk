@@ -6,7 +6,7 @@
 /*   By: mmanssou <mmanssou@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/28 15:55:19 by mmanssou          #+#    #+#             */
-/*   Updated: 2023/06/29 14:46:50 by mmanssou         ###   ########.fr       */
+/*   Updated: 2023/06/29 17:00:49 by mmanssou         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -37,12 +37,12 @@ void	send_bit(unsigned char character, int pid)
 				exit(1);
 			}
 		}
-		usleep(50);
+		usleep(100);
 		bit--;
 	}
 }
 
-void	send(int pid, char *msg)
+void	send_msg(int pid, char *msg)
 {
 	size_t			msg_len;
 	unsigned char	character;
@@ -70,7 +70,7 @@ void	send_null(int pid)
 			write(2, "Fehler beim Senden von SIGUSR2\n", 30);
 			exit(1);
 		}
-		usleep(50);
+		usleep(100);
 		bit--;
 	}
 }
@@ -85,20 +85,22 @@ void	handler_sig(int signal, siginfo_t *info, void *ucontent)
 	}
 }
 
-int	main(int ac, char **av)
+int	main(int argc, char **argv)
 {
-	int					pid;
-	struct sigaction	act;
+	int					server_pid;
+	char				*msg;
+	struct sigaction	sa_newsig;
 
-	if (check_args(ac, av) == 1)
+	if (check_args(argc, argv) == 1)
 	{
-		act.sa_sigaction = &handler_sig;
-		act.sa_flags = SA_SIGINFO;
-		pid = ft_atoi(av[1]);
-		if (sigaction(SIGUSR1, &act, NULL) == -1)
-			write(2, "Error by receive signal from server\n", 36);
-		send(pid, av[2]);
-		send_null(pid);
+		sa_newsig.sa_sigaction = &handler_sig;
+		sa_newsig.sa_flags = SA_SIGINFO;
+		server_pid = ft_atoi(argv[1]);
+		msg = argv[2];
+		if (sigaction(SIGUSR1, &sa_newsig, NULL) == -1)
+			printf("%s\n", "Fehler → SIGUSR1 konnte nicht gesendet werden");
+		send_msg(server_pid, msg);
+		send_null(server_pid);
 	}
 	return (0);
 }

@@ -6,7 +6,7 @@
 /*   By: mmanssou <mmanssou@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/28 15:55:27 by mmanssou          #+#    #+#             */
-/*   Updated: 2023/06/29 16:12:22 by mmanssou         ###   ########.fr       */
+/*   Updated: 2023/06/29 17:00:34 by mmanssou         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,29 +14,29 @@
 
 t_save_char	g_my;
 
-void	*ft_mod_memset(void *b, int c, size_t len)
-{
-	unsigned char	*f;
-	size_t			i;
+// void	*ft_mod_memset(void *b, int c, size_t len)
+// {
+// 	unsigned char	*f;
+// 	size_t			i;
 
-	f = b;
-	i = 0;
-	while (i < len && f[i] != '\0')
-	{
-		i++;
-	}
-	while (i < len)
-	{
-		f[i] = (unsigned char)c;
-		i++;
-	}
-	return (b);
-}
+// 	f = b;
+// 	i = 0;
+// 	while (i < len && f[i] != '\0')
+// 	{
+// 		i++;
+// 	}
+// 	while (i < len)
+// 	{
+// 		f[i] = (unsigned char)c;
+// 		i++;
+// 	}
+// 	return (b);
+// }
 
 void	handler_sig(int signal, siginfo_t *info, void *ucontent)
 {
-	static int				bit;
-	static unsigned char	character;
+	static int				bit = 0;
+	static unsigned char	character = 0;
 
 	(void)ucontent;
 	if (signal == SIGUSR1)
@@ -48,7 +48,7 @@ void	handler_sig(int signal, siginfo_t *info, void *ucontent)
 		{
 			write(1, g_my.message, g_my.message_size);
 			g_my.message_size = 0;
-			ft_mod_memset(g_my.message, 0, sizeof(g_my.message));
+			ft_bzero(g_my.message, sizeof(g_my.message));
 		}
 		g_my.message[g_my.message_size] = character;
 		g_my.message_size++;
@@ -61,21 +61,21 @@ void	handler_sig(int signal, siginfo_t *info, void *ucontent)
 int	main(int argc, char **argv)
 {
 	int					server_pid;
-	struct sigaction	sa;
+	struct sigaction	act;
 
 	(void)argv;
 	server_pid = getpid();
-	sa.sa_sigaction = &handler_sig;
-	sa.sa_flags = SA_SIGINFO;
+	act.sa_sigaction = &handler_sig;
+	act.sa_flags = SA_SIGINFO;
 	if (argc != 1)
 	{
 		ft_printf("%s\n", "Bitte überprüfen Sie die Eingabe → ./server");
 		return (0);
 	}
 	ft_printf("%s%d\n", "Server PID: ", server_pid);
-	if (sigaction(SIGUSR1, &sa, NULL) == -1)
+	if (sigaction(SIGUSR1, &act, NULL) == -1)
 		ft_printf("%s\n", "Fehler → SIGUSR1 konnte nicht gesendet werden");
-	if (sigaction(SIGUSR2, &sa, NULL) == -1)
+	if (sigaction(SIGUSR2, &act, NULL) == -1)
 		ft_printf("%s\n", "Fehler → SIGUSR2 konnte nicht gesendet werden");
 	while (1)
 		pause();
